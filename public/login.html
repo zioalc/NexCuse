@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NexCuse — Login</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+                <h1>NexCuse</h1>
+                <p>workout picker + calendar</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Dashboard</a>
+            <a href="calendar.html">Calendar</a>
+            <a href="login.html" aria-current="page">Login</a>
+            <a href="signup.html">Sign up</a>
+        </nav>
+    </aside>
+
+    <main class="main" id="main">
+        <div class="container">
+            <header class="topbar">
+                <div>
+                    <h2>Log in</h2>
+                    <p class="sub">Static form for milestone (does not submit).</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="index.html">Continue as logged-in (mock)</a>
+                </div>
+            </header>
+
+            <section class="grid">
+                <article class="panel col-6">
+                    <h3>Account</h3>
+                    <form class="list" style="gap:12px">
+                        <label>Email
+                            <input type="email" placeholder="zio@example.com" />
+                        </label>
+                        <label>Password
+                            <input type="password" placeholder="••••••••" />
+                        </label>
+                        <div class="actions">
+                            <button class="primary" type="button">Log in</button>
+                            <a class="btn" href="signup.html">Need an account?</a>
+                        </div>
+                    </form>
+                </article>
+
+                <article class="panel col-6">
+                    <h3>What this app does</h3>
+                    <p class="sub">
+                        NexCuse helps you choose from 8 preset workout day options and track them on a calendar.
+                    </p>
+                    <ul class="list">
+                        <li class="item"><div><strong>Pick a focus</strong><div class="meta">Legs, Pull, Push, Core…</div></div><span class="badge">Simple</span></li>
+                        <li class="item"><div><strong>Add to calendar</strong><div class="meta">Create / replace / remove per day</div></div><span class="badge">MVP</span></li>
+                    </ul>
+                </article>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

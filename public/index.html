@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NexCuse — Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+                <h1>NexCuse</h1>
+                <p>workout picker + calendar</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html" aria-current="page">Dashboard</a>
+            <a href="calendar.html">Calendar</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+        </nav>
+
+        <div class="userbox" aria-label="Logged-in user">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+                <strong>Welcome back, Xio!</strong><br />
+                <small>Logged in (mock)</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main" id="main">
+        <div class="container">
+            <header class="topbar">
+                <div>
+                    <h2>Dashboard</h2>
+                    <p class="sub">Pick a workout day option and add it to your calendar.</p>
+                </div>
+                <div class="actions">
+                    <a class="btn primary" href="calendar.html">Open calendar</a>
+                </div>
+            </header>
+
+            <section class="grid" aria-label="Dashboard content">
+                <article class="panel col-4">
+                    <h3>Today’s selection</h3>
+                    <div class="item">
+                        <div>
+                            <strong>Option 3 — Push</strong>
+                            <div class="meta">Targets: chest/shoulders/triceps</div>
+                        </div>
+                        <span class="badge accent">Planned</span>
+                    </div>
+
+                    <div class="footer-note">
+                        In the final app, this pulls from the database for today’s date.
+                    </div>
+                </article>
+
+                <article class="panel col-8">
+                    <h3>Your workout options (8)</h3>
+                    <div class="cards" aria-label="Eight preset workout options">
+                        <a class="card" href="option.html?opt=1">
+                            <strong>Option 1</strong>
+                            <div class="tag">Legs</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=2">
+                            <strong>Option 2</strong>
+                            <div class="tag">Pull</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=3">
+                            <strong>Option 3</strong>
+                            <div class="tag">Push</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=4">
+                            <strong>Option 4</strong>
+                            <div class="tag">Core</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=5">
+                            <strong>Option 5</strong>
+                            <div class="tag">Upper</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=6">
+                            <strong>Option 6</strong>
+                            <div class="tag">Full Body</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=7">
+                            <strong>Option 7</strong>
+                            <div class="tag">Cardio</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+
+                        <a class="card" href="option.html?opt=8">
+                            <strong>Option 8</strong>
+                            <div class="tag">Rest / Mobility</div>
+                            <div class="footer-note">Open details →</div>
+                        </a>
+                    </div>
+                </article>
+            </section>
+
+            <section class="contact-form" aria-label="Contact form">
+                <h2>Contact Me</h2>
+                <form id="contactForm" novalidate>
+                    <div>
+                        <label for="email">Email Address:</label>
+                        <input type="email" id="email" name="email" required>
+                        <div id="emailError" class="error" aria-live="polite"></div>
+                    </div>
+                    
+                    <fieldset>
+                        <legend>What best describes yourself?</legend>
+                        <div>
+                            <input type="checkbox" id="employer" name="role" value="employer">
+                            <label for="employer">Employer</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="peer" name="role" value="peer">
+                            <label for="peer">Peer</label>
+                        </div>
+                        <div>
+                            <input type="checkbox" id="other" name="role" value="other">
+                            <label for="other">Other</label>
+                        </div>
+                        <div id="checkboxError" class="error" aria-live="polite"></div>
+                    </fieldset>
+                    
+                    <div>
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message"></textarea>
+                    </div>
+                    
+                    <input type="submit" value="Send Message">
+                </form>
+            </section>
+        </div>
+    </main>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

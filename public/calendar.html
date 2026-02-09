@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NexCuse — Calendar</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+                <h1>NexCuse</h1>
+                <p>workout picker + calendar</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Dashboard</a>
+            <a href="calendar.html" aria-current="page">Calendar</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+        </nav>
+
+        <div class="userbox" aria-label="Logged-in user">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+                <strong>Zio</strong><br />
+                <small>Logged in (mock)</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main" id="main">
+        <div class="container">
+            <header class="topbar">
+                <div>
+                    <h2>Calendar</h2>
+                    <p class="sub">Add, replace, or remove a workout option for a date (static preview).</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="index.html">Back to dashboard</a>
+                    <button class="primary" type="button">+ Add to selected date</button>
+                </div>
+            </header>
+
+            <section class="grid" aria-label="Calendar content">
+                <article class="panel col-8">
+                    <h3>February (locked view)</h3>
+
+                    <div class="calendar" aria-label="Month calendar grid">
+                        <div class="dayname">Sun</div><div class="dayname">Mon</div><div class="dayname">Tue</div>
+                        <div class="dayname">Wed</div><div class="dayname">Thu</div><div class="dayname">Fri</div><div class="dayname">Sat</div>
+
+                        <div class="day"><strong>1</strong></div>
+
+                        <div class="day">
+                            <strong>2</strong>
+                            <div class="mini">
+                                <span class="badge accent">Option 1 — Legs</span>
+                            </div>
+                        </div>
+
+                        <div class="day">
+                            <strong>3</strong>
+                            <div class="mini">
+                                <span class="badge">Option 4 — Core</span>
+                            </div>
+                        </div>
+
+                        <div class="day"><strong>4</strong></div>
+                        <div class="day"><strong>5</strong></div>
+
+                        <div class="day">
+                            <strong>6</strong>
+                            <div class="mini">
+                                <span class="badge done">Option 7 — Cardio</span>
+                                <span class="badge done">Completed</span>
+                            </div>
+                        </div>
+
+                        <div class="day"><strong>7</strong></div>
+
+                        <!-- rest simplified -->
+                        <div class="day"><strong>8</strong></div><div class="day"><strong>9</strong></div><div class="day"><strong>10</strong></div>
+                        <div class="day"><strong>11</strong></div><div class="day"><strong>12</strong></div><div class="day"><strong>13</strong></div>
+                        <div class="day"><strong>14</strong></div><div class="day"><strong>15</strong></div><div class="day"><strong>16</strong></div>
+                        <div class="day"><strong>17</strong></div><div class="day"><strong>18</strong></div><div class="day"><strong>19</strong></div>
+                        <div class="day"><strong>20</strong></div><div class="day"><strong>21</strong></div><div class="day"><strong>22</strong></div>
+                        <div class="day"><strong>23</strong></div><div class="day"><strong>24</strong></div><div class="day"><strong>25</strong></div>
+                        <div class="day"><strong>26</strong></div><div class="day"><strong>27</strong></div><div class="day"><strong>28</strong></div>
+
+                        <!-- filler to keep grid aligned -->
+                        <div class="day" aria-hidden="true"></div><div class="day" aria-hidden="true"></div><div class="day" aria-hidden="true"></div>
+                        <div class="day" aria-hidden="true"></div><div class="day" aria-hidden="true"></div><div class="day" aria-hidden="true"></div>
+                    </div>
+
+                    <p class="footer-note">
+                        Mocked data shown on Feb 2 / Feb 3 / Feb 6 (3+ instances), as required.
+                    </p>
+                </article>
+
+                <article class="panel col-4">
+                    <h3>Edit selected date (mock)</h3>
+                    <p class="sub">Pretend user clicked Feb 3.</p>
+
+                    <form class="list" style="gap:12px">
+                        <label>
+                            Date
+                            <input type="text" value="2026-02-03" />
+                        </label>
+
+                        <label>
+                            Workout option
+                            <select>
+                                <option selected>Option 4 — Core</option>
+                                <option>Option 1 — Legs</option>
+                                <option>Option 2 — Pull</option>
+                                <option>Option 3 — Push</option>
+                                <option>Option 5 — Upper</option>
+                                <option>Option 6 — Full Body</option>
+                                <option>Option 7 — Cardio</option>
+                                <option>Option 8 — Rest / Mobility</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Completion (optional MVP-safe)
+                            <select>
+                                <option>Not marked</option>
+                                <option selected>Planned</option>
+                                <option>Completed</option>
+                                <option>Skipped</option>
+                            </select>
+                        </label>
+
+                        <div class="actions">
+                            <button class="primary" type="button">Replace selection</button>
+                            <button type="button">Remove from date</button>
+                        </div>
+                    </form>
+                </article>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

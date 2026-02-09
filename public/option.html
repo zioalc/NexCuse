@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NexCuse — Option Details</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+                <h1>NexCuse</h1>
+                <p>workout picker + calendar</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Dashboard</a>
+            <a href="calendar.html">Calendar</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html">Sign up</a>
+        </nav>
+
+        <div class="userbox" aria-label="Logged-in user">
+            <div class="avatar" aria-hidden="true"></div>
+            <div>
+                <strong>Zio</strong><br />
+                <small>Logged in (mock)</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main" id="main">
+        <div class="container">
+            <header class="topbar">
+                <div>
+                    <h2>Workout option details</h2>
+                    <p class="sub">A short description + add to calendar (static).</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="index.html">Back</a>
+                    <a class="btn primary" href="calendar.html">Open calendar</a>
+                </div>
+            </header>
+
+            <section class="grid" aria-label="Option details content">
+                <article class="panel col-6">
+                    <h3>Option 3 — Push</h3>
+                    <p class="sub">
+                        Focus: pushing muscles (chest, shoulders, triceps). Great when you want a clear direction
+                        without planning a full routine.
+                    </p>
+
+                    <ul class="list">
+                        <li class="item">
+                            <div>
+                                <strong>Targets</strong>
+                                <div class="meta">Chest • Shoulders • Triceps</div>
+                            </div>
+                            <span class="badge">Preset</span>
+                        </li>
+                        <li class="item">
+                            <div>
+                                <strong>Example exercises (optional)</strong>
+                                <div class="meta">Bench press • Overhead press • Tricep extensions</div>
+                            </div>
+                            <span class="badge">Optional</span>
+                        </li>
+                    </ul>
+                </article>
+
+                <article class="panel col-6">
+                    <h3>Add to calendar (mock)</h3>
+                    <form class="list" style="gap:12px">
+                        <label>
+                            Choose date
+                            <select>
+                                <option>2026-02-02</option>
+                                <option selected>2026-02-03</option>
+                                <option>2026-02-04</option>
+                                <option>2026-02-05</option>
+                                <option>2026-02-06</option>
+                            </select>
+                        </label>
+
+                        <label>
+                            Mark as (optional)
+                            <select>
+                                <option selected>Planned</option>
+                                <option>Completed</option>
+                                <option>Skipped</option>
+                            </select>
+                        </label>
+
+                        <div class="actions">
+                            <button class="primary" type="button">Add to selected date</button>
+                            <button type="button">Cancel</button>
+                        </div>
+
+                        <p class="footer-note">
+                            In the final app, this would create/update a DB record for that date.
+                        </p>
+                    </form>
+                </article>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>

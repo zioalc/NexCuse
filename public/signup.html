@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>NexCuse — Sign up</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+        <div class="brand">
+            <div class="logo" aria-hidden="true"></div>
+            <div>
+                <h1>NexCuse</h1>
+                <p>workout picker + calendar</p>
+            </div>
+        </div>
+
+        <nav class="nav">
+            <a href="index.html">Dashboard</a>
+            <a href="calendar.html">Calendar</a>
+            <a href="login.html">Login</a>
+            <a href="signup.html" aria-current="page">Sign up</a>
+        </nav>
+    </aside>
+
+    <main class="main" id="main">
+        <div class="container">
+            <header class="topbar">
+                <div>
+                    <h2>Create account</h2>
+                    <p class="sub">Static form for milestone (does not submit).</p>
+                </div>
+                <div class="actions">
+                    <a class="btn" href="login.html">Already have an account?</a>
+                </div>
+            </header>
+
+            <section class="grid">
+                <article class="panel col-6">
+                    <h3>Sign up</h3>
+                    <form class="list" style="gap:12px">
+                        <label>Name
+                            <input type="text" placeholder="username/name">
+                        </label>
+                        <label>Email
+                            <input type="email" placeholder="your@example.com" />
+                        </label>
+                        <label>Password
+                            <input type="password" placeholder="••••••••" />
+                        </label>
+                        <div class="actions">
+                            <button class="primary" type="button">Create account</button>
+                            <a class="btn" href="index.html">Continue to app (mock)</a>
+                        </div>
+                    </form>
+                </article>
+
+                <article class="panel col-6">
+                    <h3>What you can do (MVP)</h3>
+                    <ul class="list">
+                        <li class="item"><div><strong>See 8 preset options</strong><div class="meta">Legs, Pull, Core, Upper, Push, Full Body, Cardio, Rest</div></div><span class="badge">Read</span></li>
+                        <li class="item"><div><strong>Add/replace/remove</strong><div class="meta">Per-date workout selection on calendar</div></div><span class="badge">CRUD</span></li>
+                        <li class="item"><div><strong>View stretch guides</strong><div class="meta">Leg & Arm stretches</div></div><span class="badge">Guide</span></li>
+                    </ul>
+                </article>
+            </section>
+        </div>
+    </main>
+</div>
+</body>
+</html>
