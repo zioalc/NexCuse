@@ -6,6 +6,7 @@ export default function Layout({
   theme,
   onToggleTheme,
   onLogout,
+  banner,
 }) {
   return (
     <>
@@ -20,7 +21,18 @@ export default function Layout({
           onLogout={onLogout}
         />
         <main className="main" id="main">
-          <div className="container">{children}</div>
+          <div className="container">
+            {banner ? (
+              <p
+                className="footer-note"
+                role="alert"
+                style={{ color: "var(--error-text)", marginBottom: "var(--s3)" }}
+              >
+                {banner}
+              </p>
+            ) : null}
+            {children}
+          </div>
         </main>
       </div>
     </>

@@ -30,7 +30,8 @@
     --s5: 30px;
 
     --shadow: 0 16px 40px rgba(0,0,0,.38);
-    --max: 1100px;
+    /* Main content max width — panels grow on large screens */
+    --max: 1600px;
 
     --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
 }
@@ -66,8 +67,9 @@ a:hover{text-decoration:underline}
 /* Layout shell */
 .shell{
     display:grid;
-    grid-template-columns: 260px 1fr;
+    grid-template-columns: 260px minmax(0, 1fr);
     min-height:100vh;
+    width:100%;
 }
 
 .sidebar{
@@ -82,15 +84,49 @@ a:hover{text-decoration:underline}
 }
 
 .brand{
-    display:flex; gap:12px; align-items:center;
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 .logo{
-    width:40px;height:40px;border-radius:14px;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    width:40px;
+    height:40px;
+    border-radius:14px;
     box-shadow: var(--shadow);
+    overflow:hidden;
+    flex-shrink:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    line-height:0;
 }
-.brand h1{margin:0;font-size:1.25rem}
-.brand p{margin:2px 0 0;color:var(--muted);font-size:.92rem}
+.logo img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+    vertical-align:middle;
+}
+.brand-titles{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    gap:2px;
+    min-height:40px;
+    min-width:0;
+}
+.brand-titles h1{
+    margin:0;
+    font-size:1.25rem;
+    line-height:1.2;
+    font-weight:700;
+}
+.brand-titles p{
+    margin:0;
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.35;
+}
 
 .nav{
     display:flex;
@@ -127,9 +163,34 @@ a:hover{text-decoration:underline}
 .userbox small{color:var(--muted)}
 .user-actions{margin-top:8px}
 
-/* Main */
-.main{padding: var(--s5) var(--s4)}
-.container{max-width: var(--max); margin:0 auto}
+/* Main — beside sidebar: fixed viewport height on desktop so content scrolls inside */
+.main{
+    padding: clamp(var(--s4), 3vh, var(--s5)) var(--s4);
+    min-height:100vh;
+    min-width:0;
+    display:flex;
+    flex-direction:column;
+    box-sizing:border-box;
+    overflow-x:auto;
+    overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+}
+@media (min-width: 981px){
+    .main{
+        height:100vh;
+        max-height:100vh;
+    }
+}
+.container{
+    width:100%;
+    max-width:var(--max);
+    margin-inline:auto;
+    flex:1 1 auto;
+    display:flex;
+    flex-direction:column;
+    min-width:min(100%, var(--max));
+    box-sizing:border-box;
+}
 
 .topbar{
     display:flex;
@@ -138,8 +199,37 @@ a:hover{text-decoration:underline}
     gap: var(--s3);
     margin-bottom: var(--s4);
 }
-h2{margin:0;font-size:1.7rem}
+h2{margin:0;font-size:1.85rem}
 .sub{margin:6px 0 0;color:var(--muted)}
+.panel .sub{font-size:1.05rem;line-height:1.5}
+.option-description-bullets{
+    margin: var(--s3) 0 0;
+    padding-left: 1.35rem;
+    list-style: disc;
+    color: var(--text);
+    display: grid;
+    gap: 0.55rem;
+}
+.option-description-bullets li{
+    padding-left: 0.15rem;
+}
+.option-description-bullets--detail{
+    font-size: 1.22rem;
+    line-height: 1.55;
+    max-width: 52ch;
+}
+.option-description-bullets--preview{
+    margin-top: 0.5rem;
+    font-size: 1.12rem;
+    line-height: 1.52;
+    color: var(--muted);
+}
+.option-description-bullets--compact{
+    margin-top: 0.45rem;
+    font-size: 1.08rem;
+    line-height: 1.48;
+    color: var(--muted);
+}
 
 .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
 
@@ -164,14 +254,20 @@ h2{margin:0;font-size:1.7rem}
     background: var(--panel);
     border:1px solid var(--border);
     border-radius: var(--r2);
-    padding: var(--s4);
+    padding: clamp(var(--s4), 2.2vw, 26px);
     box-shadow: var(--shadow);
+    font-size: 1.06rem;
 }
 
 .grid{
     display:grid;
     grid-template-columns: repeat(12, 1fr);
     gap: var(--s3);
+    width:100%;
+    align-content:start;
+}
+@media (min-width: 1100px){
+    .grid{ gap: var(--s4); }
 }
 
 .col-12{grid-column: span 12}
@@ -179,7 +275,7 @@ h2{margin:0;font-size:1.7rem}
 .col-6{grid-column: span 6}
 .col-4{grid-column: span 4}
 
-.panel h3{margin:0 0 var(--s2); font-size:1.2rem}
+.panel h3{margin:0 0 var(--s2); font-size:1.34rem}
 
 .cards{
     display:grid;
@@ -190,11 +286,13 @@ h2{margin:0;font-size:1.7rem}
     border:1px solid var(--border);
     background: var(--panel2);
     border-radius: 16px;
-    padding: 14px;
+    padding: 16px;
     display:grid;
     gap: var(--s2);
+    font-size: 1.05rem;
 }
-.card .tag{color:var(--muted); font-size:.92rem}
+.card strong{font-size:1.12rem}
+.card .tag{color:var(--muted); font-size:1rem}
 .card-actions{display:flex; flex-wrap:wrap; gap:8px}
 
 .badge{
@@ -237,9 +335,24 @@ h2{margin:0;font-size:1.7rem}
     min-width: 0;
 }
 .item strong{display:block}
-.item .meta{color:var(--muted); font-size:.92rem}
+.item .meta{color:var(--muted); font-size:1.02rem}
+/* Muted aside label in feature rows — not a button (replaces pill badges). */
+.item-note{
+    font-size:.82rem;
+    font-weight:500;
+    color:var(--muted);
+    opacity:.72;
+    white-space:nowrap;
+    flex-shrink:0;
+    align-self:center;
+}
 
 label{display:grid; gap:6px}
+.auth-field-label{
+    font-weight:600;
+    font-size:.95rem;
+    color:var(--text);
+}
 input, select, textarea{
     width:100%;
     padding:10px 12px;
@@ -265,6 +378,109 @@ textarea{min-height:110px; resize:vertical}
     gap: var(--s2);
 }
 
+.calendar-month-head{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+    gap: var(--s2);
+    margin-bottom: var(--s3);
+}
+.calendar-month-head h3{
+    margin:0;
+    font-size:1.32rem;
+}
+.calendar-month-nav{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+/* Calendar — plan panel (beginner-friendly copy) */
+.calendar-plan-panel h3{
+    margin:0 0 var(--s2);
+    font-size:1.28rem;
+}
+.calendar-plan-lead{
+    margin:0 0 var(--s3);
+    max-width: 38ch;
+    line-height:1.5;
+}
+.calendar-help-details{
+    margin:0 0 var(--s4);
+    border-radius: var(--r1);
+    border:1px solid var(--border);
+    background: var(--panel2);
+    overflow:hidden;
+}
+.calendar-help-summary{
+    cursor:pointer;
+    padding:12px 14px;
+    font-weight:600;
+    font-size:.95rem;
+    color:var(--accent);
+    list-style:none;
+}
+.calendar-help-summary::-webkit-details-marker{display:none}
+.calendar-help-summary::after{
+    content:" ▼";
+    font-size:.75em;
+    opacity:.85;
+}
+.calendar-help-details[open] .calendar-help-summary::after{
+    content:" ▲";
+}
+.calendar-help-summary:hover,
+.calendar-help-summary:focus-visible{
+    background: var(--accent-tint);
+    outline:none;
+}
+.calendar-help-inner{
+    padding:0 14px 14px;
+    border-top:1px solid var(--border);
+}
+.calendar-help-intro{
+    margin:12px 0 10px;
+    font-size:.92rem;
+}
+.calendar-help-steps{
+    margin:0;
+    padding-left:1.35rem;
+    color:var(--muted);
+    font-size:.92rem;
+    line-height:1.55;
+    display:grid;
+    gap:10px;
+}
+.calendar-help-steps strong{
+    color:var(--text);
+}
+.calendar-form-heading{
+    margin:0 0 var(--s2);
+    font-size:1rem;
+    font-weight:700;
+    color:var(--text);
+}
+.calendar-plan-form .label-title{
+    font-weight:700;
+    color:var(--text);
+    font-size:1.05rem;
+}
+.calendar-plan-form .label-hint{
+    font-size:.98rem;
+    color:var(--muted);
+    font-weight:400;
+    line-height:1.45;
+}
+.calendar-plan-form .option-description-bullets--compact{
+    margin-top: 0.65rem;
+}
+.calendar-pad{
+    min-height:100px;
+    border:none;
+    background:transparent;
+    pointer-events:none;
+}
 .calendar{
     display:grid;
     grid-template-columns: repeat(7, 1fr);
@@ -288,20 +504,51 @@ button.day{appearance:none}
     border-color: var(--selected-border);
     box-shadow: 0 0 0 2px var(--selected-ring);
 }
+.day.is-today:not(.is-selected){
+    border-color: var(--accent-tint-strong);
+    box-shadow: inset 0 0 0 1px var(--accent-tint-strong);
+}
 .day strong{display:block}
 .mini{
     margin-top:8px;
-    display:grid; gap:6px;
+    display:grid;
+    gap:4px;
+}
+/* Day-cell summary: typography only (not pill chips) so it doesn’t read as nested buttons. */
+.day-entry-workout{
+    display:block;
+    font-size:.78rem;
+    font-weight:600;
+    line-height:1.25;
+    color:var(--text);
+    text-align:left;
+}
+.day-entry-status{
+    display:block;
+    font-size:.72rem;
+    font-weight:500;
+    line-height:1.25;
+    font-style:italic;
+    text-align:left;
+    color:var(--muted);
+}
+.day-entry-status--planned{color:var(--muted)}
+.day-entry-status--completed{color:var(--text)}
+.day-entry-status--skipped{
+    color:var(--muted);
+    opacity:.85;
 }
 
-.footer-note{color:var(--muted); margin-top: var(--s3); font-size:.95rem}
+.footer-note{color:var(--muted); margin-top: var(--s3); font-size:1.02rem}
 
 /* Responsive: no horizontal scroll, stack layout */
 @media (max-width: 980px){
     .shell{grid-template-columns: 1fr}
     .sidebar{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--border)}
     .userbox{display:none}
-    .main{padding: var(--s4)}
+    .main{
+        padding: clamp(var(--s3), 2vh, var(--s4)) var(--s3);
+    }
     .col-8,.col-6,.col-4{grid-column: span 12}
     .cards{grid-template-columns: repeat(2, minmax(0,1fr))}
     .form2{grid-template-columns: 1fr}
@@ -310,79 +557,6 @@ button.day{appearance:none}
 
 @media (max-width: 480px){
     .cards{grid-template-columns: 1fr}
-}
-
-/* Contact form styles */
-.contact-form {
-    margin-top: var(--s4);
-    padding: var(--s4);
-    background: var(--panel);
-    border-radius: var(--r2);
-}
-
-.contact-form h2 {
-    margin-top: 0;
-}
-
-.contact-form form div {
-    margin-bottom: var(--s3);
-}
-
-.contact-form label {
-    display: block;
-    margin-bottom: var(--s1);
-    font-weight: bold;
-}
-
-.contact-form input[type="email"],
-.contact-form textarea {
-    width: 100%;
-    padding: var(--s2);
-    border: 1px solid var(--border);
-    border-radius: var(--r1);
-    background: var(--panel2);
-    color: var(--text);
-}
-
-.contact-form textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-.contact-form fieldset {
-    border: 1px solid var(--border);
-    border-radius: var(--r1);
-    padding: var(--s3);
-    margin-bottom: var(--s3);
-}
-
-.contact-form fieldset legend {
-    font-weight: bold;
-    margin-bottom: var(--s2);
-}
-
-.contact-form fieldset div {
-    margin-bottom: var(--s1);
-}
-
-.contact-form input[type="submit"] {
-    background: var(--accent);
-    color: var(--bg);
-    border: none;
-    padding: var(--s2) var(--s4);
-    border-radius: var(--r1);
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.contact-form input[type="submit"]:hover {
-    background: var(--accent2);
-}
-
-.error {
-    color: var(--error-text);
-    font-size: 0.9em;
-    margin-top: var(--s1);
 }
 
 /* Light mode */
@@ -413,5 +587,66 @@ body[data-theme="light"]{
 }
 
 body[data-theme="light"] select{
+    color-scheme: light;
+}
+
+/* Auth nav + landing */
+button.nav-logout{
+    width:100%;
+    text-align:left;
+    font:inherit;
+    cursor:pointer;
+    background:transparent;
+    color:inherit;
+}
+button.nav-logout:hover{background: var(--panel2)}
+
+.landing{
+    display:grid;
+    gap: var(--s4);
+    width:100%;
+    max-width:min(1200px, 100%);
+    margin: 0 auto;
+}
+.landing-hero{
+    padding: var(--s5);
+}
+.landing-kicker{
+    margin:0 0 var(--s2);
+    font-size:.85rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color: var(--accent);
+    font-weight:700;
+}
+.landing-title{
+    margin:0 0 var(--s3);
+    font-size: clamp(1.45rem, 3vw, 2rem);
+    line-height:1.25;
+}
+.landing-lead{
+    margin:0 0 var(--s4);
+    max-width: 52ch;
+    font-size: 1.12rem;
+    line-height: 1.55;
+}
+.landing-actions{
+    margin-bottom: var(--s2);
+}
+.landing-hint{
+    margin:0;
+}
+.landing-preview-title{
+    margin:0 0 var(--s3);
+    font-size:1.28rem;
+}
+.guest-gate .actions{
+    flex-wrap:wrap;
+}
+
+input[type="date"]{
+    color-scheme: dark;
+}
+body[data-theme="light"] input[type="date"]{
     color-scheme: light;
 }

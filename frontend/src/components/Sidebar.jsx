@@ -7,26 +7,51 @@ export default function Sidebar({ user, theme, onToggleTheme, onLogout }) {
   return (
     <aside className="sidebar" aria-label="Primary navigation">
       <div className="brand">
-        <div className="logo" aria-hidden="true"></div>
-        <div>
+        <div className="logo" aria-hidden="true">
+          <img src="/nexcuse-icon.svg" alt="" width="40" height="40" decoding="async" />
+        </div>
+        <div className="brand-titles">
           <h1>NexCuse</h1>
           <p>workout picker + calendar</p>
         </div>
       </div>
 
       <nav className="nav">
-        <NavLink to="/" className={getNavClass} end>
-          Dashboard
-        </NavLink>
-        <NavLink to="/calendar" className={getNavClass}>
-          Calendar
-        </NavLink>
-        <NavLink to="/login" className={getNavClass}>
-          Login
-        </NavLink>
-        <NavLink to="/signup" className={getNavClass}>
-          Sign up
-        </NavLink>
+        {user ? (
+          <>
+            <NavLink to="/" className={getNavClass} end>
+              Dashboard
+            </NavLink>
+            <NavLink to="/calendar" className={getNavClass}>
+              Calendar
+            </NavLink>
+            <button
+              type="button"
+              className="nav-link nav-logout"
+              onClick={() => {
+                if (
+                  window.confirm("Are you sure you want to log out?")
+                ) {
+                  onLogout()
+                }
+              }}
+            >
+              Log out
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/" className={getNavClass} end>
+              Home
+            </NavLink>
+            <NavLink to="/login" className={getNavClass}>
+              Log in
+            </NavLink>
+            <NavLink to="/signup" className={getNavClass}>
+              Sign up
+            </NavLink>
+          </>
+        )}
       </nav>
 
       <div className="actions sidebar-actions">
@@ -42,11 +67,6 @@ export default function Sidebar({ user, theme, onToggleTheme, onLogout }) {
             <strong>Welcome back, {user.name}!</strong>
             <br />
             <small>{user.status}</small>
-            <div className="user-actions">
-              <button type="button" className="btn" onClick={onLogout}>
-                Log out
-              </button>
-            </div>
           </div>
         </div>
       ) : null}
