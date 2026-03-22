@@ -202,6 +202,29 @@ a:hover{text-decoration:underline}
 h2{margin:0;font-size:1.85rem}
 .sub{margin:6px 0 0;color:var(--muted)}
 .panel .sub{font-size:1.05rem;line-height:1.5}
+
+.app-banners{
+    display:grid;
+    gap: var(--s2);
+    margin-bottom: var(--s3);
+}
+.app-banner{
+    margin:0;
+    padding: 12px 14px;
+    border-radius: var(--r1);
+    font-size: 1rem;
+    line-height: 1.45;
+}
+.app-banner--error{
+    border: 1px solid rgba(255, 107, 107, 0.45);
+    background: rgba(255, 107, 107, 0.08);
+    color: var(--error-text);
+}
+.app-banner--loading{
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--muted);
+}
 .option-description-bullets{
     margin: var(--s3) 0 0;
     padding-left: 1.35rem;

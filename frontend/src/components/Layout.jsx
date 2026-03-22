@@ -7,7 +7,15 @@ export default function Layout({
   onToggleTheme,
   onLogout,
   banner,
+  banners,
+  loadingNotice,
 }) {
+  const list = banners?.length
+    ? banners
+    : banner
+      ? [banner]
+      : []
+
   return (
     <>
       <a className="skip-link" href="#main">
@@ -22,13 +30,29 @@ export default function Layout({
         />
         <main className="main" id="main">
           <div className="container">
-            {banner ? (
-              <p
-                className="footer-note"
-                role="alert"
-                style={{ color: "var(--error-text)", marginBottom: "var(--s3)" }}
+            {list.length > 0 ? (
+              <div
+                className="app-banners"
+                role="region"
+                aria-label="Alerts and notices"
               >
-                {banner}
+                {list.map((msg, i) => (
+                  <p
+                    key={`${i}-${msg.slice(0, 24)}`}
+                    className="app-banner app-banner--error"
+                    role="alert"
+                  >
+                    {msg}
+                  </p>
+                ))}
+              </div>
+            ) : null}
+            {loadingNotice ? (
+              <p
+                className="app-banner app-banner--loading"
+                aria-live="polite"
+              >
+                {loadingNotice}
               </p>
             ) : null}
             {children}

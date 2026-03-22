@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { ApiError, fetchJson } from "./api/client.js"
 import Layout from "./components/Layout.jsx"
 import Calendar from "./pages/Calendar.jsx"
 import Dashboard from "./pages/Dashboard.jsx"
@@ -28,6 +29,9 @@ export default function App() {
   const [options, setOptions] = useState([])
   const [optionsLoading, setOptionsLoading] = useState(true)
   const [optionsError, setOptionsError] = useState(null)
+  const [calendarLoading, setCalendarLoading] = useState(false)
+  const [calendarError, setCalendarError] = useState(null)
+  const [calendarActionError, setCalendarActionError] = useState(null)
   const [calendarEntries, setCalendarEntries] = useState(initialCalendarEntries)
   const [selectedDate, setSelectedDate] = useState(() =>
     toISODate(startOfDay(new Date())),
@@ -42,11 +46,7 @@ export default function App() {
     let cancelled = false
     setOptionsError(null)
 
-    fetch("/api/options")
-      .then(async (res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`)
-        return res.json()
-      })
+    fetchJson("/api/options")
       .then((data) => {
         if (cancelled) return
         const list = Array.isArray(data?.options) ? data.options : []
@@ -65,9 +65,11 @@ export default function App() {
       .catch((err) => {
         if (cancelled) return
         setOptions([])
-        setOptionsError(
-          "Could not load workout options. Start the API on port 3000 (npm run dev:backend or npm start) so Vite can proxy /api — or open the app from the same origin as the API.",
-        )
+        const msg =
+          err instanceof ApiError
+            ? err.message
+            : "Could not load workout options. Start the API on port 3000 (npm run dev:backend or npm start) so Vite can proxy /api — or open the app from the same origin as the API."
+        setOptionsError(msg)
         if (import.meta.env.DEV) {
           console.error("[NexCuse] GET /api/options failed:", err)
         }
@@ -87,10 +89,10 @@ export default function App() {
       setAuthLoading(false)
       return
     }
-    fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("session")
-        const data = await res.json()
+    fetchJson("/api/auth/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((data) => {
         setUser({
           name: data.user.name,
           email: data.user.email,
@@ -108,36 +110,65 @@ export default function App() {
   useEffect(() => {
     if (!user?.token) {
       setCalendarEntries(initialCalendarEntries)
+      setCalendarError(null)
+      setCalendarLoading(false)
       return
     }
-    fetch("/api/calendar", {
+    let cancelled = false
+    setCalendarLoading(true)
+    setCalendarError(null)
+
+    fetchJson("/api/calendar", {
       headers: { Authorization: `Bearer ${user.token}` },
     })
-      .then(async (res) => {
-        if (!res.ok) throw new Error("calendar")
-        const data = await res.json()
+      .then((data) => {
+        if (cancelled) return
         setCalendarEntries(entriesArrayToMap(data.entries ?? []))
       })
-      .catch(() => {
+      .catch((err) => {
+        if (cancelled) return
         setCalendarEntries({})
+        setCalendarError(
+          err instanceof ApiError
+            ? err.message
+            : "Could not load your calendar. Check your connection and try again.",
+        )
       })
+      .finally(() => {
+        if (!cancelled) setCalendarLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [user?.token])
+
+  useEffect(() => {
+    if (!calendarActionError) return
+    const t = setTimeout(() => setCalendarActionError(null), 8000)
+    return () => clearTimeout(t)
+  }, [calendarActionError])
 
   const handleUpdateEntry = async (date, optionId, status) => {
     const token = user?.token ?? localStorage.getItem("token")
+    setCalendarActionError(null)
     if (token) {
-      const res = await fetch(
-        `/api/calendar/${encodeURIComponent(date)}`,
-        {
+      try {
+        await fetchJson(`/api/calendar/${encodeURIComponent(date)}`, {
           method: "PUT",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
           },
           body: JSON.stringify({ optionId, status }),
-        },
-      )
-      if (!res.ok) return
+        })
+      } catch (err) {
+        setCalendarActionError(
+          err instanceof ApiError
+            ? err.message
+            : "Could not save this day. Try again.",
+        )
+        return
+      }
     }
     setCalendarEntries((prev) => ({
       ...prev,
@@ -147,12 +178,21 @@ export default function App() {
 
   const handleRemoveEntry = async (date) => {
     const token = user?.token ?? localStorage.getItem("token")
+    setCalendarActionError(null)
     if (token) {
-      const res = await fetch(`/api/calendar/${encodeURIComponent(date)}`, {
-        method: "DELETE",
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      if (!res.ok) return
+      try {
+        await fetchJson(`/api/calendar/${encodeURIComponent(date)}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        })
+      } catch (err) {
+        setCalendarActionError(
+          err instanceof ApiError
+            ? err.message
+            : "Could not remove this day. Try again.",
+        )
+        return
+      }
     }
     setCalendarEntries((prev) => {
       if (!prev[date]) return prev
@@ -170,12 +210,28 @@ export default function App() {
     localStorage.removeItem("token")
     setUser(null)
     setCalendarEntries(initialCalendarEntries)
+    setCalendarError(null)
+    setCalendarActionError(null)
   }
+
+  const appBanners = [
+    ...new Set(
+      [optionsError, calendarError, calendarActionError].filter(Boolean),
+    ),
+  ]
+
+  const calendarLoadingNotice =
+    user?.token && calendarLoading ? "Syncing calendar…" : null
 
   if (authLoading || optionsLoading) {
     return (
-      <div className="container" style={{ padding: "2rem" }}>
-        <p className="sub">Loading…</p>
+      <div
+        className="container"
+        style={{ padding: "2rem" }}
+        aria-busy="true"
+        aria-live="polite"
+      >
+        <p className="sub">Loading session and workout options…</p>
       </div>
     )
   }
@@ -187,7 +243,8 @@ export default function App() {
         theme={theme}
         onToggleTheme={handleToggleTheme}
         onLogout={handleLogout}
-        banner={optionsError}
+        banners={appBanners}
+        loadingNotice={calendarLoadingNotice}
       >
         <Routes>
           <Route

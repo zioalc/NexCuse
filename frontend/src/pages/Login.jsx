@@ -1,5 +1,6 @@
 import { useId, useState } from "react"
 import { Link, Navigate, useNavigate } from "react-router-dom"
+import { ApiError, fetchJson } from "../api/client.js"
 import Topbar from "../components/Topbar.jsx"
 
 export default function Login({ onLogin, user }) {
@@ -20,16 +21,10 @@ export default function Login({ onLogin, user }) {
     setMessage("")
     setSubmitting(true)
     try {
-      const res = await fetch("/api/auth/login", {
+      const data = await fetchJson("/api/auth/login", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       })
-      const data = await res.json().catch(() => ({}))
-      if (!res.ok) {
-        setMessage(data.error ?? "Login failed.")
-        return
-      }
       localStorage.setItem("token", data.token)
       const displayName =
         data.user?.email?.split("@")[0] || email.split("@")[0] || "Friend"
@@ -40,8 +35,12 @@ export default function Login({ onLogin, user }) {
         token: data.token,
       })
       navigate("/", { replace: true })
-    } catch {
-      setMessage("Network error. Is the API running on port 3000?")
+    } catch (err) {
+      setMessage(
+        err instanceof ApiError
+          ? err.message
+          : "Network error. Is the API running on port 3000?",
+      )
     } finally {
       setSubmitting(false)
     }
